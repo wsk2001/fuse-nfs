@@ -1,7 +1,7 @@
 fuse-nfs
 ========
 
-This is a fuse module that implements the NFS protocol.
+NFS 프로토콜을 구현한 퓨즈 모듈입니다.
 
 Building
 ========
@@ -19,21 +19,21 @@ FUSE OPTIONS
 
 	fuse-nfs options :
 	[-U NFS_UID|--fusenfs_uid=NFS_UID]
-		The uid passed within the rpc credentials within the mount point
-		This is the same as passing the uid within the url, however if both are defined then the url's one is used
+		마운트 지점 내의 rpc 자격 증명 내에 전달된 uid
+		이는 URL 내에서 uid를 전달하는 것과 동일합니다. 그러나 둘 다 정의된 경우 URL의 하나가 사용됩니다.
 	[-G NFS_GID|--fusenfs_gid=NFS_GID]
-		The gid passed within the rpc credentials within the mount point
-		This is the same as passing the gid within the url, however if both are defined then the url's one is used
+		마운트 지점 내의 rpc 자격 증명 내에 전달된 gid
+		이는 URL 내에서 gid를 전달하는 것과 동일합니다. 그러나 둘 다 정의된 경우 URL의 gid가 사용됩니다.
 	[-o|--fusenfs_allow_other_own_ids]
-		Allow fuse-nfs with allow_user activated to update the rpc credentials with the current (other) user credentials instead
-		of using the mount user credentials or (if defined) the custom credentials defined with -U/-G / url
-		This option activate allow_other, note that allow_other need user_allow_other to be defined in fuse.conf
+		대신 현재(기타) 사용자 자격 증명으로 rpc 자격 증명을 업데이트하도록 활성화된 Allow_user를 사용하여 퓨즈-nfs를 허용합니다.
+                마운트 사용자 자격 증명 또는 (정의된 경우) -U/-G / url로 정의된 사용자 정의 자격 증명 사용
+		이 옵션은 allow_other 를 활성화합니다. allow_other 에는 fuse.conf에 정의된 user_allow_other가 필요합니다.
 
 	libnfs options :
 	[-n SHARE|--nfs_share=SHARE]
-		The server export to be mounted
+		마운트할 서버 내보내기 (원본경로, 예: nfs://127.0.0.1/data/tmp)
 	[-m MNTPOINT|--mountpoint=MNTPOINT]
-		The client mount point
+		클라이언트 마운트 지점(마운트 포인트, 예: /my/mountpoint)
 
 	fuse options (see man mount.fuse):
 	[-p [0|1]|--default_permissions=[0|1]
@@ -90,19 +90,17 @@ FUSE OPTIONS
 
 ROOT vs NON-ROOT
 ================
-By default, most NFS servers will only allow access from clients that are
-using a system port (i.e. a port < 1024).
-Since these ports by default can only be used by the root user this will
-prevent non-root users from conencting to the NFS server or mounting the
-filesystem.
+기본적으로 대부분의 NFS 서버는 시스템 포트(예: 포트 1024)를 사용하는 클라이언트의 액세스만 허용합니다.
+기본적으로 이러한 포트는 루트 사용자만 사용할 수 있으므로 루트가 아닌 사용자가 NFS 서버에 연결하거나 파일 시스템을 마운트하는 것을 방지합니다.
 
-There are two ways to solve this:
+이 문제를 해결하는 방법에는 두 가지가 있습니다.:
 1, cap_net_bind_service
 -----------------------
-On Linux, when this capability is set the kernel will allow that program
-to use system ports for any user that runs that program.
+Linux에서 이 기능이 설정되면 커널은 해당 프로그램이 해당 프로그램을 실행하는 모든 사용자에 대해 시스템 포트를 사용할 수 있도록 허용합니다.
 
+``` bash
   sudo setcap 'cap_net_bind_service=+ep' ./fuse/fuse-nfs
+```
 
 Setting this capability will allow normal non-root users to access the NFS
 server.
