@@ -1,9 +1,9 @@
-fuse-nfs
+### fuse-nfs
 ========
 
 NFS 프로토콜을 구현한 퓨즈 모듈입니다.
 
-Building
+### Building
 ========
 
 $ sudo apt-get install libfuse-dev libnfs13 libnfs-dev libtool m4 automake libnfs-dev xsltproc
@@ -12,7 +12,7 @@ $ ./configure
 $ make
 $ sudo make install
 
-FUSE OPTIONS
+### FUSE OPTIONS
 ============
 
 	[-?|--help]
@@ -88,7 +88,7 @@ FUSE OPTIONS
 		This can improve performance for some filesystems, but can also degrade performance. 
 		This option is only useful on 2.4.X kernels, as on 2.6 kernels requests size is automatically determined for optimum performance.
 
-ROOT vs NON-ROOT
+### ROOT vs NON-ROOT
 ================
 기본적으로 대부분의 NFS 서버는 시스템 포트(예: 포트 1024)를 사용하는 클라이언트의 액세스만 허용합니다.
 기본적으로 이러한 포트는 루트 사용자만 사용할 수 있으므로 루트가 아닌 사용자가 NFS 서버에 연결하거나 파일 시스템을 마운트하는 것을 방지합니다.
@@ -108,7 +108,7 @@ Linux에서 이 기능이 설정되면 커널은 해당 프로그램이 해당 �
 Linux NFS 서버에서는 /etc/exports 파일에 'insecure' 키워드를 추가하여 이를 수행합니다.
 
 
-LIBNFS URL-FORMAT:
+### LIBNFS URL-FORMAT:
 ===========
 libnfs는 libnfs 특정 URL 인수와 일부 사소한 확장으로 확장된 RFC2224 스타일 URL을 사용합니다.
 이러한 URL의 기본 구문은 다음과 같습니다. :
